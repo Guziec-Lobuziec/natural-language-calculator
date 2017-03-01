@@ -1,4 +1,4 @@
-package alexa.calculator.logic.interpreter;
+package alexa.calculator.logic.interpreter.commands;
 
 public abstract class InterpreterCommand {
 	

@@ -3,6 +3,8 @@ package alexa.calculator.logic.interpreter;
 import java.util.HashMap;
 import java.util.Map;
 
+import alexa.calculator.logic.interpreter.commands.InterpreterCommand;
+
 public class MappingRule {
 	
 	private String regex;

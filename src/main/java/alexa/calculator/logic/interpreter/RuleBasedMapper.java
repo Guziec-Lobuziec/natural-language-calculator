@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import alexa.calculator.logic.interpreter.commands.InterpreterCommand;
+
 public class RuleBasedMapper implements LanguageToProcessedScriptMapper {
 
 	@Override
