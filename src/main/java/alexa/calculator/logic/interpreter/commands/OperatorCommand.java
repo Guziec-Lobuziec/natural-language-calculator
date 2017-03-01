@@ -4,7 +4,7 @@ public abstract class OperatorCommand extends InterpreterCommand {
 	
 	@Override
 	public String getType() {
-		return "oper";
+		return "operator";
 	}
 
 }
