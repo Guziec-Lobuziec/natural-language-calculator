@@ -1,6 +1,6 @@
 package alexa.calculator.logic.interpreter.commands;
 
-public abstract class FunctionCommand extends InterpreterCommand {
+public abstract class FunctionCommand implements InterpreterCommand {
 
 	@Override
 	public String getType() {

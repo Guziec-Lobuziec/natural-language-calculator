@@ -1,12 +1,10 @@
 package alexa.calculator.logic.interpreter.commands;
 
-public abstract class InterpreterCommand {
+public interface InterpreterCommand {
 	
-	public String getValue() {
-		return null;
-	}
+	public String getValue();
 	
-	public abstract String getType();
+	public String getType();
 	
 	
 }
