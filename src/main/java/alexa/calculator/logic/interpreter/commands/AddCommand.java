@@ -6,6 +6,11 @@ public class AddCommand extends OperatorCommand {
 	public String getValue() {
 		return "+";
 	}
+
+	@Override
+	public InterpreterCommand buildCopy() {
+		return new AddCommand();
+	}
 	
 	
 	

@@ -7,4 +7,9 @@ public class SubCommand extends OperatorCommand {
 		return "-";
 	}
 
+	@Override
+	public InterpreterCommand buildCopy() {
+		return new SubCommand();
+	}
+
 }

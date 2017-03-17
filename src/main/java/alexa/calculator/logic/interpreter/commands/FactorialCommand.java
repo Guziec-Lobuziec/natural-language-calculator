@@ -6,5 +6,10 @@ public class FactorialCommand extends FunctionCommand {
 	public String getValue() {
 		return "factorial";
 	}
+
+	@Override
+	public InterpreterCommand buildCopy() {
+		return new FactorialCommand();
+	}
 	
 }

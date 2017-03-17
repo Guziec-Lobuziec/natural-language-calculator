@@ -7,4 +7,9 @@ public class MulCommand extends OperatorCommand {
 		return "*";
 	}
 
+	@Override
+	public InterpreterCommand buildCopy() {
+		return new MulCommand();
+	}
+
 }

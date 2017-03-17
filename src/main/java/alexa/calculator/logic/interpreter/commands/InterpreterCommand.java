@@ -6,5 +6,11 @@ public interface InterpreterCommand {
 	
 	public String getType();
 	
+	public boolean hasMutableValue();
+	
+	public InterpreterCommand buildCopy();
+	
+	public InterpreterCommand buildCopyWithValue(String value) throws InterpreterCommandException;
+	
 	
 }

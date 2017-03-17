@@ -7,4 +7,9 @@ public class DivCommand extends OperatorCommand {
 		return "/";
 	}
 
+	@Override
+	public InterpreterCommand buildCopy() {
+		return new DivCommand();
+	}
+
 }
