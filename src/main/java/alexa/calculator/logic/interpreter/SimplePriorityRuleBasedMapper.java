@@ -7,19 +7,36 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import alexa.calculator.logic.interpreter.commands.InterpreterCommand;
 import alexa.calculator.logic.interpreter.commands.InterpreterCommandException;
 
 public class SimplePriorityRuleBasedMapper implements LanguageToProcessedScriptMapper {
 	
+	@Configuration
 	public static class Builder {
 		
 		private TreeMap<Integer, List<MappingRule>> buildersListsOfRulesWithPriority = new TreeMap<>();
+		
+		public void addPriorityToRulesMap(Map<Integer,List<MappingRule>> mapOfRules) {
+			
+			for(Entry<Integer,List<MappingRule>> entry : mapOfRules.entrySet())
+			{
+				if(buildersListsOfRulesWithPriority.containsKey(entry.getKey()))
+					buildersListsOfRulesWithPriority.get(entry.getKey()).addAll(entry.getValue());
+				else
+					buildersListsOfRulesWithPriority.put(entry.getKey(), entry.getValue());
+			}
+			
+		}
 		
 		public void addNewRuleWithPriority(MappingRule rule, int priority) {
 			
@@ -34,6 +51,7 @@ public class SimplePriorityRuleBasedMapper implements LanguageToProcessedScriptM
 			addNewRuleWithPriority(rule, 0);
 		}
 		
+		@Bean
 		public SimplePriorityRuleBasedMapper build() {
 			
 			int initialCapacityOfContainers = 
@@ -147,7 +165,6 @@ public class SimplePriorityRuleBasedMapper implements LanguageToProcessedScriptM
 		
 	}
 	
-	public static final String SourceGroupNamePrefix = "grsrc";
 	public static final String GroupNamePrefix = "groupkey";
 	
 	private final Pattern masterPatternForMapping;
@@ -182,7 +199,7 @@ public class SimplePriorityRuleBasedMapper implements LanguageToProcessedScriptM
 		
 		if(
 				parentGroupName.length() >= 
-				Integer.highestOneBit(groupIdsToMappingRules.size())
+				32 - Integer.numberOfLeadingZeros(groupIdsToMappingRules.size())
 			)
 			return parentGroupName;
 		
@@ -219,7 +236,7 @@ public class SimplePriorityRuleBasedMapper implements LanguageToProcessedScriptM
 			
 			output.addAll(
 					mapSubstringToInterpreterCommands(
-							rawSubstring.substring(0, matcher.start(groupId))
+							rawSubstring.substring(0, matcher.start(GroupNamePrefix+groupId))
 						)
 				);
 			
@@ -227,21 +244,17 @@ public class SimplePriorityRuleBasedMapper implements LanguageToProcessedScriptM
 				output.add(
 					this.groupIdsToMappingRules
 						.get(groupId).get(0)
-							.getOutputCommand().buildCopyWithValue(matcher.group(groupId))
-				);
-			} catch (InterpreterCommandException e) {
-				
-				output.addAll(
-						mapSubstringToInterpreterCommands(
-								rawSubstring.substring(matcher.start(groupId))
-							)
-					);
+							.getOutputCommand()
+								.buildCopyWithValue(
+										matcher.group(GroupNamePrefix+groupId))
+								);
+			} catch (InterpreterCommandException notInUse) {
 				
 			}
 			
 			output.addAll(
 					mapSubstringToInterpreterCommands(
-							rawSubstring.substring(matcher.end(groupId))
+							rawSubstring.substring(matcher.end(GroupNamePrefix+groupId))
 						)
 				);
 			
