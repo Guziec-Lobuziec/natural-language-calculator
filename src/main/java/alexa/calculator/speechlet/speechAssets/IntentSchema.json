@@ -1,7 +1,13 @@
 {
   "intents": [
     {
-      "intent": "TestIntent"
+      "intent": "TestIntent",
+       "slots": [
+        {
+          "name": "Input",
+          "type": "STRING"
+        }
+      ]
     }
   ]
 }

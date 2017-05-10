@@ -29,8 +29,7 @@ public class DecimalNumberCommand implements InterpreterCommand {
 			Matcher commaMatcher
 				= Pattern.compile(",")
 					.matcher(processedValue);
-			commaMatcher.replaceAll(".");
-			this.numberValue = processedValue;
+			this.numberValue = commaMatcher.replaceAll(".");
 		}
 		else {
 			throw new InterpreterCommandException("DecimalNumberCommand: Given string \'"+value+"\' is not a decimal number");

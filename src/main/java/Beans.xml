@@ -1,0 +1,74 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+        
+    
+  	<context:annotation-config/>
+        
+    <bean id="simplePriorityRuleBasedMapperBuilder" class="alexa.calculator.logic.interpreter.SimplePriorityRuleBasedMapper.Builder">
+    	<property name="mapOfRules">
+    		<map>
+    			<entry key="-1">
+    				<list>
+    					<ref bean="factorialMappingRule"/>
+    				</list>
+    			</entry>
+    			<entry key="0">
+    				<list>
+    					<ref bean="addMappingRule"/>
+    					<ref bean="subMappingRule"/>
+    					<ref bean="mulMappingRule"/>
+    					<ref bean="divMappingRule"/>
+    				</list>
+    			</entry>
+    			<entry key="1">
+    				<list>
+    					<ref bean="decimalNumberMappingRule"/>
+    				</list>
+    			</entry>
+    		</map>
+    	</property>
+    </bean>
+    
+    <bean id='decimalNumberMappingRule' class='alexa.calculator.logic.interpreter.MappingRule'>
+		<constructor-arg index="0" value="(^|\\s+)(-)?\\d+((\\.|,)\\d+)?(\\s+|$)"></constructor-arg>
+		<constructor-arg index="1">
+			<bean id='decimalNumberCommandTemplate' class='alexa.calculator.logic.interpreter.commands.DecimalNumberCommand'></bean>
+		</constructor-arg>
+	</bean>
+	<bean id='addMappingRule' class='alexa.calculator.logic.interpreter.MappingRule'>
+		<constructor-arg index="0" value="[Pp]lus|[Aa]dd"></constructor-arg>
+		<constructor-arg index="1">
+			<bean id='addCommandTemplate' class='alexa.calculator.logic.interpreter.commands.AddCommand'></bean>
+		</constructor-arg>
+	</bean>
+	<bean id='subMappingRule' class='alexa.calculator.logic.interpreter.MappingRule'>
+		<constructor-arg index="0" value="[Mm]inus"></constructor-arg>
+		<constructor-arg index="1">
+			<bean id='subCommandTemplate' class='alexa.calculator.logic.interpreter.commands.SubCommand'></bean>
+		</constructor-arg>
+	</bean>
+	<bean id='mulMappingRule' class='alexa.calculator.logic.interpreter.MappingRule'>
+		<constructor-arg index="0" value="([Tt]ime(s)?)|([Mm]ultiplied(\\s+[Bb]y)?)"></constructor-arg>
+		<constructor-arg index="1">
+			<bean id='mulCommandTemplate' class='alexa.calculator.logic.interpreter.commands.MulCommand'></bean>
+		</constructor-arg>
+	</bean>
+	<bean id='divMappingRule' class='alexa.calculator.logic.interpreter.MappingRule'>
+		<constructor-arg index="0" value="[Dd]ivided(\\s+[Bb]y)?"></constructor-arg>
+		<constructor-arg index="1">
+			<bean id='divCommandTemplate' class='alexa.calculator.logic.interpreter.commands.DivCommand'></bean>
+		</constructor-arg>
+	</bean>
+	<bean id='factorialMappingRule' class='alexa.calculator.logic.interpreter.MappingRule'>
+		<constructor-arg index="0" value="[Ff]actorial(\\s+of)?"></constructor-arg>
+		<constructor-arg index="1">
+			<bean id='factorialCommandTemplate' class='alexa.calculator.logic.interpreter.commands.FactorialCommand'></bean>
+		</constructor-arg>
+	</bean>
+
+</beans>
